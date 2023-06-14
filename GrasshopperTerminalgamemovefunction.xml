@@ -1,0 +1,5 @@
+SELECT CASE
+         WHEN position = 0 THEN roll * 2
+         ELSE position + roll * 2
+       END AS res
+FROM moves;
