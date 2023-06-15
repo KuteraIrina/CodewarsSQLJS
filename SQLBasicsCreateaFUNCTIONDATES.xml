@@ -1,0 +1,8 @@
+CREATE OR REPLACE FUNCTION agecalculator(date_of_birth date)
+  RETURNS integer AS
+$$
+BEGIN
+  RETURN EXTRACT(YEAR FROM age(current_date, date_of_birth));
+END;
+$$
+LANGUAGE plpgsql;
