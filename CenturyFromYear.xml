@@ -1,0 +1,5 @@
+SELECT
+  yr AS year,
+  CEILING(yr / 100.0) AS century
+FROM
+  years;
