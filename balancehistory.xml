@@ -1,0 +1,23 @@
+WITH daily_operations AS (
+  SELECT
+    date::date AS date,
+    SUM(amount) AS total_amount
+  FROM
+    operations
+  GROUP BY
+    date::date
+  ORDER BY
+    date::date
+),
+daily_balances AS (
+  SELECT
+    date,
+    SUM(total_amount) OVER (ORDER BY date ASC) AS balance
+  FROM
+    daily_operations
+)
+SELECT
+  date,
+  balance
+FROM
+  daily_balances;

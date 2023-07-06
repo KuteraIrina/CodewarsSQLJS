@@ -1,0 +1,74 @@
+1
+WITH subject_avg AS (
+2
+  SELECT
+3
+    course_name,
+4
+    AVG(score) AS avg_score
+5
+  FROM
+6
+    courses
+7
+  GROUP BY
+8
+    course_name
+9
+)
+10
+SELECT
+11
+  s.id AS student_id,
+12
+  s.name,
+13
+  STRING_AGG(
+14
+    CONCAT(
+15
+      c.course_name,
+16
+      ' (',
+17
+      ROUND(((c.score - sa.avg_score) / sa.avg_score) * 100, 2),
+18
+      '%)'
+19
+    ),
+20
+    ', '
+21
+    ORDER BY
+22
+      c.course_name
+23
+  ) AS outperformance
+24
+FROM
+25
+  students s
+26
+JOIN
+27
+  courses c ON s.id = c.student_id
+28
+JOIN
+29
+  subject_avg sa ON c.course_name = sa.course_name
+30
+WHERE
+31
+  c.score > sa.avg_score
+32
+GROUP BY
+33
+  s.id, s.name
+34
+HAVING
+35
+  COUNT(DISTINCT c.course_name) >= 3
+36
+ORDER BY
+37
+  student_id;
